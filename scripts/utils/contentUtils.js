@@ -1,47 +1,7 @@
 export const contentUtils = {
-    createOverlayOnPage: (tabId) => {
-        return new Promise((resolve, reject) => {
-
-        console.log('Inside createOverlayOnPage');
-        chrome.runtime.onMessage.addListener(
-            function(request, sender, sendResponse) {
-                console.log('Inside addListener ',request);
-                if (request.action == "createDiv"){
-                    console.log('************** Inside createDiv');
-                    //Code to create the div
-                    function CreateDiv(){
-                        console.log("Created");
-                        var div = document.createElement("div");
-                        div.style.width = "100px";
-                        div.style.height = "100px";
-                        div.innerHTML = "Hello ............................. ";
-                        document.body.appendChild(div);
-                    }
-                    CreateDiv();
-                    // chrome.contextMenus.create({"title": "Menu", "onclick": CreateDiv});
-                    console.log("Loaded");
-                    // sendResponse({confirmation: "Successfully created div"});
-                }
-            });
-            chrome.tabs.executeScript(tabId, {
-                file: 'scripts/utils/getPagesSource.js'
-            }, () => {
-                // console.log('Inside executeScript ');
-                // If you try and inject into an extensions page or the webstore/NTP you'll get an error
-                if (chrome.runtime.lastError) {
-                    console.log('chrome.runtime.lastError ', chrome.runtime.lastError);
-                    return reject(chrome.runtime.lastError);
-                }
-            });
-        });
-
-    },
     getContentOfTab: (tabId) => {
         return new Promise((resolve, reject) => {
             // console.log('Inside getContentOfCurrentDocument ', tabId);
-
-
-
             const removeListeners = () => {
                 chrome.tabs.onUpdated.removeListener(onUpdated);
                 chrome.tabs.onRemoved.removeListener(onRemoved);
