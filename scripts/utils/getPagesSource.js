@@ -33,6 +33,10 @@ const readStringFromDom = (documentRoot) => {
 };
 
 chrome.runtime.sendMessage({
-    action: 'getSource',
+    action: 'createDiv',
     source: readStringFromDom(document)
 });
+
+// chrome.runtime.sendMessage(tabs[0].id, {createDiv: {width: "100px", height: "100px", innerHTML: "Hello"}}, (response)=> {
+//     console.log(response);
+// });

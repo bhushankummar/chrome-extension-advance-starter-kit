@@ -1,5 +1,5 @@
 {
-    "name": "Chrome Extension Starter Kit",
+    "name": "Chrome Extension Advanced Starter Kit - BL",
     "version": "1.0",
     "manifest_version": 2,
     "description": "Chrome Extension starter Kit with es6 standards",
@@ -12,6 +12,7 @@
         "tabs",
         "activeTab",
         "declarativeContent",
+        "webNavigation",
         "<all_urls>",
         "storage",
         "http://*/*",
