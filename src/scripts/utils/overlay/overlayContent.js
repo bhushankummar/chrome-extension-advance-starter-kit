@@ -33,6 +33,7 @@ const removeOverlay = () => {
 
 chrome.runtime.onMessage.addListener(
     (request, sender, sendResponse) => {
+        console.log('onMessage ', request);
         console.log(sender.tab ? `from a content script:${sender.tab.url}` : 'from the extension');
         if (request.message === 'close overlay') {
             removeOverlay();
@@ -40,6 +41,9 @@ chrome.runtime.onMessage.addListener(
         } else if (request.message === 'open overlay') {
             displayOverlay();
             sendResponse({ message: 'hello!' });
+        } else if (request.message === 'contentReceived') {
+            console.log('contentReceived ', request);
+            // Set content into the TextBox
         }
     }
 );

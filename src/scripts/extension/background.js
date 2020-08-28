@@ -1,5 +1,7 @@
+import * as contextMenuUtils from '../utils/contextMenu/menu.js';
+
 const init = () => {
-    // console.log('Init background.js');
+    contextMenuUtils.initContentMenu();
 };
 
 window.onload = init;

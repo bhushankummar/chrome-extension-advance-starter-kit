@@ -13,6 +13,7 @@
         "activeTab",
         "declarativeContent",
         "webNavigation",
+        "contextMenus",
         "<all_urls>",
         "storage",
         "http://*/*",
