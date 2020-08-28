@@ -4,12 +4,6 @@ module.exports = exports = {
     env: {
         es6: true
     },
-    ecmaFeatures: {
-        modules: true,
-        spread: true,
-        restParams: true
-    },
-
     parserOptions: {
         ecmaVersion: 11,
         ecmaFeatures: {
