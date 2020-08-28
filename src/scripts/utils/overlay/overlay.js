@@ -25,7 +25,7 @@ function initializeOverlay (tabId) {
     console.log('Adding first overlay to page!');
     chrome.tabs.insertCSS(tabId, { file: 'src/css/style.css' }, () => {
         executeScripts(tabId, [
-            { file: 'src/scripts/jquery/jquery-2.1.4.min.js' },
+            { file: 'src/vendor/jquery/jquery-2.1.4.min.js' },
             { file: 'src/scripts/utils/overlay/overlayContent.js' }
         ], () => {
             openOverlay(tabId);
@@ -37,7 +37,7 @@ function initializeOverlay (tabId) {
 }
 
 function resetTabOverlayState (tabId) {
-    console.log(`Setting tab ${  details.tabId  } to uninitialized.`)
+    console.log(`Setting tab ${details.tabId} to uninitialized.`);
     initialized[ tabId ] = false;
     overlayed[ tabId ] = false;
 }
@@ -51,22 +51,22 @@ function toggleOverlayVisibility (tabId) {
 }
 
 function openOverlay (tabId) {
-    sendMessageToTab(tabId, 'open overlay')
+    sendMessageToTab(tabId, 'open overlay');
     overlayed[ tabId ] = true;
 }
 
 function closeOverlay (tabId) {
-    sendMessageToTab(tabId, 'close overlay')
+    sendMessageToTab(tabId, 'close overlay');
     overlayed[ tabId ] = false;
 }
 
 function sendMessageToTab (tabId, message_) {
-    console.log(`Sending message ${  message_  } to tab ${  tabId}`);
+    console.log(`Sending message ${message_} to tab ${tabId}`);
     chrome.tabs.sendMessage(
         tabId,
         { message: message_ },
         (response) => {
-            console.log(`Response: ${  response.message}`);
+            console.log(`Response: ${response.message}`);
         }
     );
 }
@@ -81,7 +81,7 @@ function executeScripts (tabId, injectDetailsArray, callback) {
         callback = createCallback(tabId, injectDetailsArray[ i ], callback);
     }
     if (callback !== null) {
-        callback();   // execute outermost function
+        callback(); // execute outermost function
     }
 }
 

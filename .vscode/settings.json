@@ -37,14 +37,15 @@
     "vsicons.projectDetection.autoReload": true,
     "vsicons.dontShowNewVersionMessage": true,
     "typescript.updateImportsOnFileMove.enabled": "always",
-    "javascript.updateImportsOnFileMove.enabled": "always",
     "typescript.format.insertSpaceAfterOpeningAndBeforeClosingNonemptyBraces": true,
     "typescript.format.insertSpaceAfterOpeningAndBeforeClosingJsxExpressionBraces": true,
     "typescript.format.insertSpaceAfterOpeningAndBeforeClosingNonemptyBrackets": true,
+    "javascript.updateImportsOnFileMove.enabled": "always",
     "javascript.format.insertSpaceAfterOpeningAndBeforeClosingNonemptyBraces": true,
     "javascript.format.insertSpaceBeforeFunctionParenthesis": true,
     "javascript.format.insertSpaceAfterOpeningAndBeforeClosingNonemptyBrackets": true,
     "javascript.format.insertSpaceAfterOpeningAndBeforeClosingJsxExpressionBraces": true,
+    "javascript.format.insertSpaceBeforeAndAfterBinaryOperators": true,
     "[javascript]": {
         "editor.defaultFormatter": "vscode.typescript-language-features"
     },
