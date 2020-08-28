@@ -1,4 +1,4 @@
-console.log('Content script executing.');
+// console.log('Content script executing.');
 const $$ = window.$;
 
 const overlayDiv = $$('<div id=\'overlay\'/>');

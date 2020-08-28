@@ -1,8 +1,15 @@
 const initialized = {};
-const overlayed = {};
+const overlaid = {};
 const ZERO_INDEX = 0;
 
-export const buttonItemClick = () => {
+export const initOverlay = () => {
+    // when the URL changes or the page is refreshed, both initialized and overlaid need to change to false for that tab
+    chrome.webNavigation.onCommitted.addListener((details) => {
+        if (details.frameId === ZERO_INDEX) { // only reset if the nav is tab-level
+            resetTabOverlayState(details.tabId);
+        }
+    });
+
     chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
         const tabId = tabs[ ZERO_INDEX ].id;
         if (!initialized[ tabId ]) {
@@ -15,13 +22,6 @@ export const buttonItemClick = () => {
     });
 };
 
-// when the URL changes or the page is refreshed, both initialized and overlayed need to change to false for that tab
-chrome.webNavigation.onCommitted.addListener((details) => {
-    if (details.frameId === ZERO_INDEX) { // only reset if the nav is tab-level
-        resetTabOverlayState(details.tabId);
-    }
-});
-
 const initializeOverlay = (tabId) => {
     console.log('Adding first overlay to page!');
     chrome.tabs.insertCSS(tabId, { file: 'src/css/style.css' }, () => {
@@ -32,7 +32,7 @@ const initializeOverlay = (tabId) => {
             openOverlay(tabId);
             console.log('Overlay loaded and opened.');
             initialized[ tabId ] = true;
-            overlayed[ tabId ] = true;
+            overlaid[ tabId ] = true;
         });
     });
 };
@@ -43,14 +43,14 @@ const createCallback = (innerTabId, injectDetails, innerCallback) => {
 };
 
 const executeScripts = (tabId, files, callback) => {
-    console.log('callback ', callback);
+    // console.log('callback ', callback);
     let callbackStack = callback;
     for (let item in files) {
         if (files[ item ]) {
             callbackStack = createCallback(tabId, files[ item ], callbackStack);
         }
     }
-    console.log('callbackStack ', callbackStack);
+    // console.log('callbackStack ', callbackStack);
     if (callbackStack !== null) {
         return callbackStack(); // execute outermost function
     }
@@ -59,11 +59,11 @@ const executeScripts = (tabId, files, callback) => {
 const resetTabOverlayState = (tabId) => {
     // console.log(`Setting tab ${details.tabId} to uninitialized.`);
     initialized[ tabId ] = false;
-    overlayed[ tabId ] = false;
+    overlaid[ tabId ] = false;
 };
 
 const toggleOverlayVisibility = (tabId) => {
-    if (overlayed[ tabId ]) {
+    if (overlaid[ tabId ]) {
         closeOverlay(tabId);
     } else {
         openOverlay(tabId);
@@ -72,12 +72,12 @@ const toggleOverlayVisibility = (tabId) => {
 
 const openOverlay = (tabId) => {
     sendMessageToTab(tabId, 'open overlay');
-    overlayed[ tabId ] = true;
+    overlaid[ tabId ] = true;
 };
 
 const closeOverlay = (tabId) => {
     sendMessageToTab(tabId, 'close overlay');
-    overlayed[ tabId ] = false;
+    overlaid[ tabId ] = false;
 };
 
 const sendMessageToTab = (tabId, message_) => {
