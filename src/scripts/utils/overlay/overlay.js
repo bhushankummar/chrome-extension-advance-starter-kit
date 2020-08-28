@@ -16,12 +16,12 @@ export const buttonItemClick = () => {
 
 // when the URL changes or the page is refreshed, both initialized and overlayed need to change to false for that tab
 chrome.webNavigation.onCommitted.addListener((details) => {
-    if (details.frameId == 0) { // only reset if the nav is tab-level
+    if (details.frameId === 0) { // only reset if the nav is tab-level
         resetTabOverlayState(details.tabId);
     }
 });
 
-function initializeOverlay (tabId) {
+const initializeOverlay = (tabId) => {
     console.log('Adding first overlay to page!');
     chrome.tabs.insertCSS(tabId, { file: 'src/css/style.css' }, () => {
         executeScripts(tabId, [
@@ -34,33 +34,33 @@ function initializeOverlay (tabId) {
             overlayed[ tabId ] = true;
         });
     });
-}
+};
 
-function resetTabOverlayState (tabId) {
-    console.log(`Setting tab ${details.tabId} to uninitialized.`);
+const resetTabOverlayState = (tabId) => {
+    // console.log(`Setting tab ${details.tabId} to uninitialized.`);
     initialized[ tabId ] = false;
     overlayed[ tabId ] = false;
-}
+};
 
-function toggleOverlayVisibility (tabId) {
+const toggleOverlayVisibility = (tabId) => {
     if (overlayed[ tabId ]) {
         closeOverlay(tabId);
     } else {
         openOverlay(tabId);
     }
-}
+};
 
-function openOverlay (tabId) {
+const openOverlay = (tabId) => {
     sendMessageToTab(tabId, 'open overlay');
     overlayed[ tabId ] = true;
-}
+};
 
-function closeOverlay (tabId) {
+const closeOverlay = (tabId) => {
     sendMessageToTab(tabId, 'close overlay');
     overlayed[ tabId ] = false;
-}
+};
 
-function sendMessageToTab (tabId, message_) {
+const sendMessageToTab = (tabId, message_) => {
     console.log(`Sending message ${message_} to tab ${tabId}`);
     chrome.tabs.sendMessage(
         tabId,
@@ -69,19 +69,18 @@ function sendMessageToTab (tabId, message_) {
             console.log(`Response: ${response.message}`);
         }
     );
-}
+};
 
-function executeScripts (tabId, injectDetailsArray, callback) {
-    function createCallback (tabId, injectDetails, innerCallback) {
-        return function () {
-            chrome.tabs.executeScript(tabId, injectDetails, innerCallback);
+const executeScripts = (tabId, injectDetailsArray, callback) => {
+    const createCallback = (innerTabId, injectDetails, innerCallback) => {
+        return () => {
+            chrome.tabs.executeScript(innerTabId, injectDetails, innerCallback);
         };
-    }
-    for (let i = injectDetailsArray.length - 1; i >= 0; --i) {
-        callback = createCallback(tabId, injectDetailsArray[ i ], callback);
+    };
+    for (let item = injectDetailsArray.length - 1; item >= 0; --item) {
+        callback = createCallback(tabId, injectDetailsArray[ item ], callback);
     }
     if (callback !== null) {
-        callback(); // execute outermost function
+        return callback(); // execute outermost function
     }
-}
-
+};
