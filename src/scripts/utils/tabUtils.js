@@ -1,3 +1,5 @@
+const ZERO_INDEX = 0;
+
 export const tabUtils = {
     openLinkInNewTab: (newURL) => {
         // console.log('newURL ', newURL);
@@ -14,6 +16,14 @@ export const tabUtils = {
         return new Promise((resolve) => {
             chrome.tabs.remove(tabId, (response) => {
                 return resolve(response);
+            });
+        });
+    },
+
+    getActiveTab: () => {
+        return new Promise((resolve) => {
+            chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+                return resolve(tabs[ ZERO_INDEX ]);
             });
         });
     }

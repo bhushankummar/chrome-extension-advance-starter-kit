@@ -1,8 +1,9 @@
+import { tabUtils } from '../tabUtils.js';
 const initialized = {};
 const overlaid = {};
 const ZERO_INDEX = 0;
 
-export const initOverlay = () => {
+export const initOverlay = async () => {
     // when the URL changes or the page is refreshed, both initialized and overlaid need to change to false for that tab
     chrome.webNavigation.onCommitted.addListener((details) => {
         if (details.frameId === ZERO_INDEX) { // only reset if the nav is tab-level
@@ -10,8 +11,9 @@ export const initOverlay = () => {
         }
     });
 
-    chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
-        const tabId = tabs[ ZERO_INDEX ].id;
+    try {
+        const activeTab = await tabUtils.getActiveTab();
+        const tabId = activeTab.id;
         if (!initialized[ tabId ]) {
             // This is the first time the icon was clicked for the current tab, initialize content script
             initializeOverlay(tabId);
@@ -19,7 +21,9 @@ export const initOverlay = () => {
             // Content script is running, we just need to tell it to show or hide the overlay
             toggleOverlayVisibility(tabId);
         }
-    });
+    } catch (error) {
+        console.log('error', error);
+    }
 };
 
 const initializeOverlay = (tabId) => {

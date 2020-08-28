@@ -1,3 +1,5 @@
+import { tabUtils } from '../tabUtils.js';
+
 const ZERO_INDEX = 0;
 
 export const initContentMenu = () => {
@@ -52,6 +54,27 @@ const addMenuClickEvent = async () => {
     try {
         const content = await getSelectedText();
         console.log(' content ', content);
+        // chrome.runtime.sendMessage({
+        //     action: 'contentReceived',
+        //     source: {
+        //         action: 'menuAdd',
+        //         content: content
+        //     }
+        // });
+        try {
+            const activeTab = await tabUtils.getActiveTab();
+            const tabId = activeTab.id;
+            // console.log('tabId ', tabId);
+            chrome.tabs.sendMessage(
+                tabId,
+                { message: 'Content Received' },
+                (response) => {
+                    console.log(`Response: ${response}`);
+                }
+            );
+        } catch (error) {
+            console.log('error', error);
+        }
     } catch (error) {
         console.log('error ', error);
     }
