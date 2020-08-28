@@ -1,4 +1,5 @@
 console.log('Content script executing.');
+const $ = window.$;
 
 const overlayDiv = $("<div id='overlay'/>");
 /* TODO: asynchronously add our content to overlay div element
@@ -8,16 +9,16 @@ const overlayDiv = $("<div id='overlay'/>");
 function displayOverlay () {
     console.log('Adding overlay to page.')
     $('body').prepend(overlayDiv);
-};
+}
 
 function removeOverlay () {
     console.log('Removing overlay!');
     $('#overlay').detach();
-};
+}
 
 chrome.runtime.onMessage.addListener(
-    function (request, sender, sendResponse) {
-        console.log(sender.tab ? 'from a content script:' + sender.tab.url : 'from the extension');
+    (request, sender, sendResponse) => {
+        console.log(sender.tab ? `from a content script:${  sender.tab.url}` : 'from the extension');
         if (request.message == 'close overlay') {
             removeOverlay();
             sendResponse({ message: 'goodbye!' });

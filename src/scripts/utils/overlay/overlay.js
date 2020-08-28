@@ -2,7 +2,7 @@ const initialized = {};
 const overlayed = {};
 
 export const buttonItemClick = () => {
-    chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
+    chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
         const tabId = tabs[ 0 ].id;
         if (!initialized[ tabId ]) {
             // This is the first time the icon was clicked for the current tab, initialize content script
@@ -15,7 +15,7 @@ export const buttonItemClick = () => {
 };
 
 // when the URL changes or the page is refreshed, both initialized and overlayed need to change to false for that tab
-chrome.webNavigation.onCommitted.addListener(function (details) {
+chrome.webNavigation.onCommitted.addListener((details) => {
     if (details.frameId == 0) { // only reset if the nav is tab-level
         resetTabOverlayState(details.tabId);
     }
@@ -23,11 +23,11 @@ chrome.webNavigation.onCommitted.addListener(function (details) {
 
 function initializeOverlay (tabId) {
     console.log('Adding first overlay to page!');
-    chrome.tabs.insertCSS(tabId, { file: 'src/css/style.css' }, function () {
+    chrome.tabs.insertCSS(tabId, { file: 'src/css/style.css' }, () => {
         executeScripts(tabId, [
             { file: 'src/scripts/jquery/jquery-2.1.4.min.js' },
             { file: 'src/scripts/utils/overlay/overlayContent.js' }
-        ], function () {
+        ], () => {
             openOverlay(tabId);
             console.log('Overlay loaded and opened.');
             initialized[ tabId ] = true;
@@ -37,7 +37,7 @@ function initializeOverlay (tabId) {
 }
 
 function resetTabOverlayState (tabId) {
-    console.log('Setting tab ' + details.tabId + ' to uninitialized.')
+    console.log(`Setting tab ${  details.tabId  } to uninitialized.`)
     initialized[ tabId ] = false;
     overlayed[ tabId ] = false;
 }
@@ -61,12 +61,12 @@ function closeOverlay (tabId) {
 }
 
 function sendMessageToTab (tabId, message_) {
-    console.log('Sending message ' + message_ + ' to tab ' + tabId);
+    console.log(`Sending message ${  message_  } to tab ${  tabId}`);
     chrome.tabs.sendMessage(
         tabId,
         { message: message_ },
-        function (response) {
-            console.log('Response: ' + response.message);
+        (response) => {
+            console.log(`Response: ${  response.message}`);
         }
     );
 }
@@ -77,7 +77,7 @@ function executeScripts (tabId, injectDetailsArray, callback) {
             chrome.tabs.executeScript(tabId, injectDetails, innerCallback);
         };
     }
-    for (var i = injectDetailsArray.length - 1; i >= 0; --i) {
+    for (let i = injectDetailsArray.length - 1; i >= 0; --i) {
         callback = createCallback(tabId, injectDetailsArray[ i ], callback);
     }
     if (callback !== null) {

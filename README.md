@@ -2,6 +2,8 @@
 Chrome Extension starter Kit with es6 standards
 
 ## Features
+- eslint configured with NPM
+- Visual Code best coding practice
 - Working with Popup File
 - Working with Background File
 - Working with console.log across all files
