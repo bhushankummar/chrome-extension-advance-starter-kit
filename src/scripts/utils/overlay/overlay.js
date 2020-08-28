@@ -23,10 +23,10 @@ chrome.webNavigation.onCommitted.addListener(function (details) {
 
 function initializeOverlay (tabId) {
     console.log('Adding first overlay to page!');
-    chrome.tabs.insertCSS(tabId, { file: 'css/style.css' }, function () {
+    chrome.tabs.insertCSS(tabId, { file: 'src/css/style.css' }, function () {
         executeScripts(tabId, [
-            { file: 'scripts/jquery/jquery-2.1.4.min.js' },
-            { file: 'scripts/utils/overlay/overlayContent.js' }
+            { file: 'src/scripts/jquery/jquery-2.1.4.min.js' },
+            { file: 'src/scripts/utils/overlay/overlayContent.js' }
         ], function () {
             openOverlay(tabId);
             console.log('Overlay loaded and opened.');

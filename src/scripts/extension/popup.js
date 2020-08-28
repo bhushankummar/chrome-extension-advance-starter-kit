@@ -12,4 +12,5 @@ const buttonItemClick = () => {
         overlayUtils.buttonItemClick();
     });
 };
+
 window.onload = init;
