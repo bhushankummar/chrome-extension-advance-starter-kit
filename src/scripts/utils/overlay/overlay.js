@@ -40,6 +40,7 @@ const initializeOverlay = (tabId) => {
         });
     });
 };
+
 const createCallback = (innerTabId, injectDetails, innerCallback) => {
     return () => {
         chrome.tabs.executeScript(innerTabId, injectDetails, innerCallback);

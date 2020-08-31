@@ -1,34 +1,32 @@
-// import * as apiService from '../../service/apiService.js';
+const baseUrl = 'users/';
 
-// const src = chrome.runtime.getURL('../../service/apiService.js');
-// const apiService = import(src);
-// apiService.main();
+let apiService = {};
+(async () => {
+    // const src = chrome.runtime.getURL('../../service/apiService.js');
+    apiService = await (await import('../../service/apiService.js')).apiService;
+    console.log('apiService ', apiService);
+})();
 
-// const baseUrl = 'users/';
+const jQuery = window.jQuery;
 
-// import { apiService } from '../apiService';
-
-// console.log('Content script executing.');
-const $$ = window.$;
-
-const overlayDiv = $$('<div id=\'overlay\'><button id=\'btnSubmit\'>Click here</button></div>');
+const overlayDiv = jQuery('<div id=\'overlay\'><button id=\'btnSubmit\'>Click here</button></div>');
 
 const displayOverlay = () => {
     console.log('Adding overlay to page.');
-    $$('body').prepend(overlayDiv);
+    jQuery('body').prepend(overlayDiv);
     btnSubmitClickEvent();
 };
 
 const btnSubmitClickEvent = () => {
     document.getElementById('btnSubmit').addEventListener('click', () => {
         console.log('Inside btnSubmit');
-        // apiService.post(baseUrl, { email: 'abc@gmail.com', password: '12345678' });
+        apiService.post(baseUrl, { email: 'abc@gmail.com', password: '12345678' });
     });
 };
 
 const removeOverlay = () => {
     console.log('Removing overlay!');
-    $$('#overlay').detach();
+    jQuery('#overlay').detach();
 };
 
 chrome.runtime.onMessage.addListener(
