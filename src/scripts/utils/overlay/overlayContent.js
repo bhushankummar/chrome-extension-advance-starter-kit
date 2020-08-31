@@ -2,7 +2,6 @@ const baseUrl = 'users/';
 
 let apiService = {};
 (async () => {
-    // const src = chrome.runtime.getURL('../../service/apiService.js');
     apiService = await (await import('../../service/apiService.js')).apiService;
     console.log('apiService ', apiService);
 })();
@@ -39,8 +38,8 @@ chrome.runtime.onMessage.addListener(
         } else if (request.message === 'open overlay') {
             displayOverlay();
             sendResponse({ message: 'hello!' });
-        } else if (request.message === 'contentReceived') {
-            console.log('contentReceived ', request);
+        } else if (request.message === 'menuAdd') {
+            console.log('Context menuAdd event ', request);
             // Set content into the TextBox
         }
     }

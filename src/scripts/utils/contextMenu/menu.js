@@ -67,7 +67,10 @@ const addMenuClickEvent = async () => {
             // console.log('tabId ', tabId);
             chrome.tabs.sendMessage(
                 tabId,
-                { message: 'Content Received' },
+                {
+                    message: 'menuAdd',
+                    content: content
+                },
                 (response) => {
                     console.log(`Response: ${response}`);
                 }
