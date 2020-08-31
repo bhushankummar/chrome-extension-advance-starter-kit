@@ -8,7 +8,8 @@ let apiService = {};
 
 const jQuery = window.jQuery;
 
-const overlayDiv = jQuery('<div id=\'overlay\'><button id=\'btnSubmit\'>Click here</button></div>');
+const overlayDiv =
+jQuery('<div id=\'overlay\'><input type=\'text\' id=\'inputText\'/><button id=\'btnSubmit\'>Submit</button></div>');
 
 const displayOverlay = () => {
     console.log('Adding overlay to page.');
@@ -17,9 +18,10 @@ const displayOverlay = () => {
 };
 
 const btnSubmitClickEvent = () => {
-    document.getElementById('btnSubmit').addEventListener('click', () => {
-        console.log('Inside btnSubmit');
-        apiService.post(baseUrl, { email: 'abc@gmail.com', password: '12345678' });
+    document.getElementById('btnSubmit').addEventListener('click', async () => {
+        const email = document.getElementById('inputText').value;
+        const value = await apiService.post(baseUrl, { email: email, password: '12345678' });
+        console.log(value);
     });
 };
 
@@ -40,7 +42,7 @@ chrome.runtime.onMessage.addListener(
             sendResponse({ message: 'hello!' });
         } else if (request.message === 'menuAdd') {
             console.log('Context menuAdd event ', request);
-            // Set content into the TextBox
+            document.getElementById('inputText').value = request.content;
         }
     }
 );
