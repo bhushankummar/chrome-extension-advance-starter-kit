@@ -1,4 +1,4 @@
-import { tabUtils } from '../tabUtils.js';
+import { getActiveTab } from '../tabUtils.js';
 
 const ZERO_INDEX = 0;
 
@@ -62,7 +62,7 @@ const addMenuClickEvent = async () => {
         //     }
         // });
         try {
-            const activeTab = await tabUtils.getActiveTab();
+            const activeTab = await getActiveTab();
             const tabId = activeTab.id;
             // console.log('tabId ', tabId);
             chrome.tabs.sendMessage(

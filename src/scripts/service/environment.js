@@ -3,11 +3,11 @@ const env = 'local';
 // const env = 'production';
 
 const localEnv = {
-    API_URL: 'http://localhost:4050/'
+    API_URL: 'http://localhost:8080/'
 };
 
 const productionEnv = {
-    API_URL: 'http://localhost:4050/'
+    API_URL: 'http://localhost:8080/'
 };
 
 export let environment = {

@@ -1,9 +1,12 @@
 const baseUrl = 'users/';
 
-let apiService = {};
+let post = {};
+let get = {};
 (async () => {
-    apiService = await (await import('../../service/apiService.js')).apiService;
-    console.log('apiService ', apiService);
+    post = await (await import('../../service/apiService.js')).post;
+    get = await (await import('../../service/apiService.js')).get;
+    console.log('post ', post);
+    console.log('get ', get);
 })();
 
 const jQuery = window.jQuery;
@@ -20,7 +23,7 @@ const displayOverlay = () => {
 const btnSubmitClickEvent = () => {
     document.getElementById('btnSubmit').addEventListener('click', async () => {
         const email = document.getElementById('inputText').value;
-        const value = await apiService.post(baseUrl, { email: email, password: '12345678' });
+        const value = await post(baseUrl, { email: email, password: '12345678' });
         console.log(value);
     });
 };

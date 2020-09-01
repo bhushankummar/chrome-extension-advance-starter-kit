@@ -1,4 +1,4 @@
-import { tabUtils } from '../tabUtils.js';
+import { getActiveTab } from '../tabUtils.js';
 const initialized = {};
 const overlaid = {};
 const ZERO_INDEX = 0;
@@ -12,7 +12,7 @@ export const initOverlay = async () => {
     });
 
     try {
-        const activeTab = await tabUtils.getActiveTab();
+        const activeTab = await getActiveTab();
         const tabId = activeTab.id;
         if (!initialized[ tabId ]) {
             // This is the first time the icon was clicked for the current tab, initialize content script
