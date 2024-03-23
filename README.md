@@ -19,5 +19,6 @@ Chrome Extension starter Kit with es6 standards
 - Get the selection text from the html
 
 ## Do you need an expert?
-Are you finding a developer for your world-class product? If yes, please contact here. [Submit your project request here.](https://goo.gl/forms/UofdG5GY5iHMoUWg2)
-Originally by [Bhushankumar L](mailto:bhushankumar.lilapara@gmail.com).
+
+Are you in need of a developer? If so, please reach out here. [Submit your project request here.](https://goo.gl/forms/UofdG5GY5iHMoUWg2)
+Originally by [Bhushankummar - bhushan.lilapra@gmail.com](mailto:bhushan.lilapra@gmail.com).
